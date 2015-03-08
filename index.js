@@ -29,17 +29,23 @@ CursorPositionNotifier.prototype._onEvent = function(event){
 };
 
 CursorPositionNotifier.prototype._parseEvent = function(event){
-	var attrVal = event.toElement ? $(event.toElement).attr(this.identifierAttribute) : undefined,
-		$currentElement = attrVal ? $(event.toElement) : $(),
+	var attrVal,
+		path = [],
+		$toElement = $(event.toElement),
+		$currentElement;
+	if ($toElement.length > 0 && $toElement.is(this.commonSelector)){
+		attrVal = $toElement.attr(this.identifierAttribute);
+		$currentElement = $toElement;
 		path = [];
-	
-	while ($currentElement.length) {
-		path.push($currentElement.attr(this.identifierAttribute));
-		$currentElement = $currentElement.parent().closest(this.commonSelector);
+		
+		while ($currentElement.length) {
+			path.push($currentElement.attr(this.identifierAttribute));
+			$currentElement = $currentElement.parent().closest(this.commonSelector);
+		}
+
+		path = path.reverse();	
 	}
-
-	path = path.reverse();
-
+	
 	return {
 		cursorOn: attrVal,
 		path: path
