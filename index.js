@@ -14,9 +14,9 @@ function CursorPositionNotifier(options){
 CursorPositionNotifier.prototype.start = function(){
 	var self = this;
 	this.isActive = true;
-	$(this.containerSelector).on(
+	$('body').on(
 		'mouseenter.CursorPositionNotifier mouseleave.CursorPositionNotifier',
-	 	this.commonSelector,
+	 	this.containerSelector + ' ' + this.commonSelector,
 	 	_.debounce(this._onEvent.bind(this), this.debounceDelay));
 };
 
@@ -30,11 +30,11 @@ CursorPositionNotifier.prototype._onEvent = function(event){
 
 CursorPositionNotifier.prototype._parseEvent = function(event){
 	var attrVal = event.toElement ? $(event.toElement).attr(this.identifierAttribute) : undefined,
-		$currentElement = $(event.toElement),
+		$currentElement = attrVal ? $(event.toElement) : $(),
 		path = [];
 	
 	while ($currentElement.length) {
-		path.push($currentElement.attr(this.identifierAttribute))
+		path.push($currentElement.attr(this.identifierAttribute));
 		$currentElement = $currentElement.parent().closest(this.commonSelector);
 	}
 
@@ -48,7 +48,7 @@ CursorPositionNotifier.prototype._parseEvent = function(event){
 
 CursorPositionNotifier.prototype.pause = function(){
 	this.isActive = false;
-	$(this.containerSelector).off('mouseenter.cursorPositionNotifier mouseleave.cursorPositionNotifier');
+	$('body').off('mouseenter.cursorPositionNotifier mouseleave.cursorPositionNotifier');
 };
 
 CursorPositionNotifier.prototype.resume = CursorPositionNotifier.prototype.start;
