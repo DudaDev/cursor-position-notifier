@@ -1,6 +1,6 @@
 {
   "name": "cursor-position-notifier",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Cursor position notifier within widgets hierarchy",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ramybenaroya/cursor-position-notifier.git"
+    "url": "https://github.com/DudaDev/cursor-position-notifier.git"
   },
   "author": "Ramy Ben Aroya",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ramybenaroya/cursor-position-notifier/issues"
+    "url": "https://github.com/DudaDev/cursor-position-notifier/issues"
   },
-  "homepage": "https://github.com/ramybenaroya/cursor-position-notifier",
+  "homepage": "https://github.com/DudaDev/cursor-position-notifier",
   "dependencies": {
     "jquery": "^2.1.3",
     "lodash": "^3.4.0"

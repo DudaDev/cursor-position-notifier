@@ -1,0 +1,95 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            .container {
+                border: 5px blue solid;
+            }
+
+            [widget], [non-widget]{
+                border-style: solid;
+                border-width: 5px;
+                min-width: 80px;
+                min-height: 80px;
+                display: inline-block;
+                padding: 20px;
+            }
+            .hovered {
+                box-shadow: 0 0 10px 5px gold;
+            }
+
+            [widget] {
+                border-color: red;
+            }
+
+            [non-widget]{
+                border-color: purple;
+            }
+
+            .from-top {
+                border-top-color: green;
+            }
+            .from-right {
+                border-right-color: green;
+            }
+            .from-bottom {
+                border-bottom-color: green;
+            }
+            .from-left {
+                border-left-color: green;
+            }
+
+            .widget {
+                color: red;
+            }
+            .non-widget {
+                color: purple;
+            }
+            .currently-hovered {
+                color: gold;
+            }
+
+        </style>
+        <h1>Legend:</h1>
+            <div class='widget'>Widget</div>
+            <div class='non-widget'>Non-Widget</div>
+            <div class='currently-hovered'>Current</div>
+        </p>
+        <h3>Open console and you will see the payload</h3>
+
+        <div class='container'>
+            <div widget id='widget1'>
+                <div widget id='widget2'>
+                    <div widget id='widget3'>
+                        <div widget id='widget4'>
+                            <div non-widget>
+                            </div>                       
+                        </div>
+                    </div>
+                </div>
+                <div widget id='widget5'>
+                    <div widget id='widget6'>
+                        <div non-widget>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="lodash.js"></script>
+        <script src="test-module.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
