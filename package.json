@@ -1,6 +1,6 @@
 {
   "name": "cursor-position-notifier",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Cursor position notifier within widgets hierarchy",
   "main": "index.js",
   "scripts": {
