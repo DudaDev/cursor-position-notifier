@@ -95,17 +95,24 @@ CursorPositionNotifier.prototype._parseEvent = function(event) {
 			height: null,
 			width: null
 		};
-	if ($toElement.length > 0 && $toElement.is(this.commonSelector)) {
-		attrVal = $toElement.attr(this.identifierAttribute);
-		$currentElement = $toElement;
-		path = [];
-
-		while ($currentElement.length) {
-			path.push($currentElement.attr(this.identifierAttribute));
-			$currentElement = $currentElement.parent().closest(this.commonSelector);
+	
+	if ($toElement.length > 0 ) {
+		if (!$toElement.is(this.commonSelector)) {
+			$toElement = $toElement.closest(this.commonSelector);
 		}
 
-		path = path.reverse();
+		if ($toElement.is(this.commonSelector)) {
+			attrVal = $toElement.attr(this.identifierAttribute);
+			$currentElement = $toElement;
+			path = [];
+
+			while ($currentElement.length) {
+				path.push($currentElement.attr(this.identifierAttribute));
+				$currentElement = $currentElement.parent().closest(this.commonSelector);
+			}
+
+			path = path.reverse();
+		}
 	}
 
 	isValidElement = $toElement.length && attrVal;
