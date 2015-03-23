@@ -12,6 +12,7 @@ function CursorPositionNotifier(options) {
 	this.rows = options.rows || 1;
 	this.debounceDelay = options.debounceDelay || 100;
 	this.isActive = false;
+	this.isDestroyed = false;
 	this._current = {};
 	(function() {
 		var __current = {
@@ -67,6 +68,8 @@ function CursorPositionNotifier(options) {
 };
 
 CursorPositionNotifier.prototype.start = function() {
+	this._assertInstanceHasNotBeenDestroyed('start');
+
 	var self = this;
 	this.isActive = true;
 	$('body').on(
@@ -145,21 +148,29 @@ CursorPositionNotifier.prototype._initCurrentTracking = function(info, event) {
 };
 
 CursorPositionNotifier.prototype.pause = function() {
+	this._assertInstanceHasNotBeenDestroyed('pause');
+
 	this.isActive = false;
 	$('body').off('mouseenter.cursorPositionNotifier mouseleave.cursorPositionNotifier');
+	if (this._current.observed.element) {
+		this._current.observed.element.off('mousemove.cursorPositionNotifier');
+	}
 };
 
 CursorPositionNotifier.prototype._onCurrentMousemove = function(event) {
-	var $this = $(event.currentTarget),
+	var $this, position, gridPosition;
+	if (this.isActive){
+		$this = $(event.currentTarget),
 		position = {
 			x: event.pageX - $this.offset().left,
 			y: event.pageY - $this.offset().top
 		},
 		gridPosition = this._computeGridPosition(position);
-	this._current.observed = {
-		row: gridPosition.row,
-		column: gridPosition.column,
-	};
+		this._current.observed = {
+			row: gridPosition.row,
+			column: gridPosition.column,
+		};	
+	}
 };
 
 CursorPositionNotifier.prototype._computeGridPosition = function(position) {
@@ -169,11 +180,30 @@ CursorPositionNotifier.prototype._computeGridPosition = function(position) {
 	return gridPosition;
 };
 
-CursorPositionNotifier.prototype.resume = CursorPositionNotifier.prototype.start;
+CursorPositionNotifier.prototype.resume = function(){
+	this._assertInstanceHasNotBeenDestroyed('resume');
+
+	this.start();
+}
+
+CursorPositionNotifier.prototype._assertInstanceHasNotBeenDestroyed = function(methodName){
+	if (this.isDestroyed){
+		throw new Error('This instance of CursorPositionNotifier has been destroyed prior to the call of "' + methodName + '" method.');
+	}
+}
 
 CursorPositionNotifier.prototype.destroy = function() {
-	this.hold();
+	this._assertInstanceHasNotBeenDestroyed('destroy');
+
+	this.isActive = false
+	this.pause();
+	this._current.observed = {
+		cursorOn: null,
+		row: null,
+		column: null
+	};
 	this.callback = null;
+	this.isDestroyed = true;
 };
 
 module.exports = CursorPositionNotifier;

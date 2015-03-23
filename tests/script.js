@@ -1,5 +1,5 @@
 $(function(){
-	var cpn = new CursorPositionNotifier({
+	window.cpn = new CursorPositionNotifier({
 		containerSelector: '.container',
 		commonSelector: '[widget]',
 		rows: 2,
@@ -25,6 +25,6 @@ $(function(){
 			}
 		}
 	});
-	cpn.start();
+	window.cpn.start();
 });
 
