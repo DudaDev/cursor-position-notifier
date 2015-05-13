@@ -89,7 +89,8 @@ CursorPositionNotifier.prototype._onElementSwitch = function(event) {
 CursorPositionNotifier.prototype._parseEvent = function(event) {
 	var attrVal,
 		path = [],
-		$toElement = $(event.toElement),
+		eventType = event.type,
+		$toElement,
 		$currentElement,
 		isValidElement,
 		boundingRect,
@@ -97,6 +98,12 @@ CursorPositionNotifier.prototype._parseEvent = function(event) {
 			height: null,
 			width: null
 		};
+
+	if (event.toElement) {
+		$toElement = $(event.toElement);
+	} else {
+		$toElement = eventType === "mouseleave" ? $(event.relatedTarget) : $(event.target);
+	}
 	
 	if ($toElement.length > 0 ) {
 		if (!$toElement.is(this.commonSelector)) {
